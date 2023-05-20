@@ -8,35 +8,46 @@ import Card from 'react-bootstrap/Card';
 import InvoiceItem from './InvoiceItem';
 import InvoiceModal from './InvoiceModal';
 import InputGroup from 'react-bootstrap/InputGroup';
+import { connect } from 'react-redux';
+import { addInvoice } from '../actions';
+import { Link } from 'react-router-dom';
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addInvoice: (invoice) => dispatch(addInvoice(invoice))
+  };
+}
 
 class InvoiceForm extends React.Component {
   constructor(props) {
     super(props);
+    const {
+      invoices,
+      // other properties from your Redux store
+    } = this.props;
     this.state = {
-      isOpen: false,
+      isOpen:false,
       currency: '$',
-      currentDate: '',
-      invoiceNumber: 1,
-      dateOfIssue: '',
-      billTo: '',
-      billToEmail: '',
-      billToAddress: '',
-      billFrom: '',
-      billFromEmail: '',
-      billFromAddress: '',
-      notes: '',
-      total: '0.00',
-      subTotal: '0.00',
-      taxRate: '',
-      taxAmmount: '0.00',
-      discountRate: '',
-      discountAmmount: '0.00'
+      currentDate: '22/05/2023',
+      invoiceNumber:1,
+      dateOfIssue:'rej',
+      billTo:'fkllkewr@gmail.com',
+
+      billToEmail:'fkllkewr@gmail.com',
+      billToAddress: 'fkllkewr@gmail.com',
+      billFrom:'fkllkewr@gmail.com',
+      billFromEmail:'fkllkewr@gmail.com',
+      billFromAddress: 'fkllkewr@gmail.com',
+      notes: 'fkllkewr@gmail.com',
+      total: 'fkllkewr@gmail.com',
+      subTotal: 'fkllkewr@gmail.com',
+      taxAmmount:'fkllkewr@gmail.com',
+      discountRate: 'fkllkewr@gmail.com',
+      discountAmmount: 'fkllkewr@gmail.com',
     };
     this.state.items = [
       {
-        id: 0,
-        name: '',
-        description: '',
+        name: 'fkllkewr@gmail.com',
+        description: 'fkllkewr@gmail.com',
         price: '1.00',
         quantity: 1
       }
@@ -44,6 +55,7 @@ class InvoiceForm extends React.Component {
     this.editField = this.editField.bind(this);
   }
   componentDidMount(prevProps) {
+
     this.handleCalculateTotal()
   }
   handleRowDel(items) {
@@ -118,11 +130,15 @@ class InvoiceForm extends React.Component {
   openModal = (event) => {
     event.preventDefault()
     this.handleCalculateTotal()
+    this.props.addInvoice(this.state);
+
+
     this.setState({isOpen: true})
   };
   closeModal = (event) => this.setState({isOpen: false});
   render() {
-    return (<Form onSubmit={this.openModal}>
+    return (
+      <Form onSubmit={this.openModal}>
       <Row>
         <Col md={8} lg={9}>
           <Card className="p-4 p-xl-5 my-3 my-xl-4">
@@ -134,12 +150,12 @@ class InvoiceForm extends React.Component {
                     <span className="current-date">{new Date().toLocaleDateString()}</span>
                   </div>
                 </div>
-                <div className="d-flex flex-row align-items-center">
+                {/* <div className="d-flex flex-row align-items-center">
                   <span className="fw-bold d-block me-2">Due&nbsp;Date:</span>
                   <Form.Control type="date" value={this.state.dateOfIssue} name={"dateOfIssue"} onChange={(event) => this.editField(event)} style={{
                       maxWidth: '150px'
                     }} required="required"/>
-                </div>
+                </div> */}
               </div>
               <div className="d-flex flex-row align-items-center">
                 <span className="fw-bold me-2">Invoice&nbsp;Number:&nbsp;</span>
@@ -238,11 +254,14 @@ class InvoiceForm extends React.Component {
                 </InputGroup.Text>
               </InputGroup>
             </Form.Group>
+           <Link to="/">Home</Link>
+
           </div>
         </Col>
       </Row>
-    </Form>)
+    </Form>
+      )
   }
 }
-
-export default InvoiceForm;
+export default connect(null, mapDispatchToProps)(InvoiceForm);
+  
